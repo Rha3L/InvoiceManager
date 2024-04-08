@@ -1,5 +1,7 @@
-﻿using backend.Core.Context;
+﻿using AutoMapper;
+using backend.Core.Context;
 using backend.Core.Dtos.Company;
+using backend.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +13,12 @@ namespace backend.Controllers
     {
         private ApplicationDbContext _context { get; }
 
-        public CompanyController (ApplicationDbContext context)
+        private IMapper _mapper { get; }
+
+        public CompanyController (ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         //Create
@@ -21,7 +26,11 @@ namespace backend.Controllers
         [Route("Create")]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyCreateDto dto) 
         {
-        
+            var newCompany = _mapper.Map<Company>(dto);
+            await _context.Companies.AddAsync(newCompany);
+            await _context.SaveChangesAsync();
+
+            return Ok("Company Created Sucessfully");
         }
 
         //Read
