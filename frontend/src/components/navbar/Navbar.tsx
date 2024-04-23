@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, LightMode, DarkMode } from "@mui/icons-material";
 import { ToggleButton } from "@mui/material";
 
-import "./navbar.scss";
+import "./Navbar.scss";
 import { ThemeContext } from "../../context/theme.context";
 
 const links = [
