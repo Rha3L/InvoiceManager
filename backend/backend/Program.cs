@@ -11,11 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("local"));
 });
 
-//Automapper Configuration
-builder.Services.AddAutoMapper(typeof(AutoMapperConfigProfile));
-
-
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 
 builder.Services
     .AddControllers()
@@ -23,6 +20,7 @@ builder.Services
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+    
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
