@@ -13,7 +13,7 @@ namespace backend.Core.Context
 
         public DbSet<Job> Jobs { get; set; }
 
-        public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<User> Candidates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace backend.Core.Context
                 .WithMany(company => company.Jobs)
                 .HasForeignKey(job => job.CompanyId);
 
-            modelBuilder.Entity<Candidate>()
+            modelBuilder.Entity<User>()
                 .HasOne(candidate => candidate.Job)
                 .WithMany(job => job.Candidates)
                 .HasForeignKey(candidate => candidate.JobId);

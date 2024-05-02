@@ -11,13 +11,13 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CandidatesController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
         private readonly IMapper _mapper;
 
-        public CandidatesController(ApplicationDbContext context, IMapper mapper)
+        public UserController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -26,7 +26,7 @@ namespace backend.Controllers
         //Create
         [HttpPost]
         [Route("Create")]
-        public async Task<IActionResult> CreateCandidate([FromForm] CandidateCreateDto dto, IFormFile pdfFile)
+        public async Task<IActionResult> CreateCandidate([FromForm] UserCreateDto dto, IFormFile pdfFile)
         {
             var fiveMegaByte = 5 * 1024 * 1024;
             var pdfMimeType = "application/pdf";
@@ -44,7 +44,7 @@ namespace backend.Controllers
                 await pdfFile.CopyToAsync(stream);
             }
 
-            var newCandidate = _mapper.Map<Candidate>(dto);
+            var newCandidate = _mapper.Map<User>(dto);
             newCandidate.ResumeUrl = resumeUrl;
             await _context.Candidates.AddAsync(newCandidate);
             await _context.SaveChangesAsync();
@@ -55,10 +55,10 @@ namespace backend.Controllers
         //Read
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<CandidateDto>>> GetCandidates()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetCandidates()
         {
             var candidates = await _context.Candidates.Include(c => c.Job).OrderByDescending(q => q.CreatedAt).ToListAsync();
-            var convertedCandidates = _mapper.Map<IEnumerable<CandidateDto>>(candidates);
+            var convertedCandidates = _mapper.Map<IEnumerable<UserDto>>(candidates);
 
             return Ok(convertedCandidates);
         }
