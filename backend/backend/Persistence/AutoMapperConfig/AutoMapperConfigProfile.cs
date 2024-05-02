@@ -12,16 +12,16 @@ namespace backend.Core.AutoMapperConfig
         {
             //Company
             CreateMap<CompanyCreateDto, Company>();
-            CreateMap<Company, CompanyGetDto>();
+            CreateMap<Company, CompanyDto>();
 
             //Job
             CreateMap<JobCreateDto, Job>();
-            CreateMap<Job, JobGetDto>()
+            CreateMap<Job, JobDto>()
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
 
             //Candidate
             CreateMap<CandidateCreateDto, Candidate>();
-            CreateMap<Candidate, CandidateGetDto>()
+            CreateMap<Candidate, CandidateDto>()
                 .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => src.Job.Title));
         }
     }

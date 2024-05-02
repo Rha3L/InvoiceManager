@@ -11,13 +11,13 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CandidateController : ControllerBase
+    public class CandidatesController : ControllerBase
     {
-        private ApplicationDbContext _context { get; }
+        private readonly ApplicationDbContext _context;
 
-        private IMapper _mapper { get; }
+        private readonly IMapper _mapper;
 
-        public CandidateController(ApplicationDbContext context, IMapper mapper)
+        public CandidatesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -55,10 +55,10 @@ namespace backend.Controllers
         //Read
         [HttpGet]
         [Route("Get")]
-        public async Task<ActionResult<IEnumerable<CandidateGetDto>>> GetCandidates()
+        public async Task<ActionResult<IEnumerable<CandidateDto>>> GetCandidates()
         {
             var candidates = await _context.Candidates.Include(c => c.Job).OrderByDescending(q => q.CreatedAt).ToListAsync();
-            var convertedCandidates = _mapper.Map<IEnumerable<CandidateGetDto>>(candidates);
+            var convertedCandidates = _mapper.Map<IEnumerable<CandidateDto>>(candidates);
 
             return Ok(convertedCandidates);
         }
