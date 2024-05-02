@@ -4,7 +4,7 @@ namespace backend.Core.Dtos.Job
 {
     public class JobCreateDto
     {
-        public string Title { get; set; }
+        public string Title { get; set; } = String.Empty;
 
         public JobLevel Level { get; set; }
 
