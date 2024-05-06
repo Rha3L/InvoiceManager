@@ -1,7 +1,7 @@
-﻿using backend.Core.Entities;
+﻿using backend.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Core.Context
+namespace backend.Context
 {
     public class ApplicationDbContext: DbContext
     {
@@ -26,7 +26,7 @@ namespace backend.Core.Context
 
             modelBuilder.Entity<User>()
                 .HasOne(candidate => candidate.Job)
-                .WithMany(job => job.Candidates)
+                .WithMany(job => job.Users)
                 .HasForeignKey(candidate => candidate.JobId);
 
             modelBuilder.Entity<Company>()

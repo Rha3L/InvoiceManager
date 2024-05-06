@@ -1,7 +1,7 @@
-﻿using backend.Core.Entities;
-using backend.Core.Enums;
+﻿using backend.Entities;
+using backend.Enums;
 
-namespace backend.Core.Dtos.Job
+namespace backend.Persistence.Dtos.Job
 {
     public class JobDto
     {

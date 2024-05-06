@@ -1,4 +1,4 @@
-﻿namespace backend.Core.Dtos.Candidate
+﻿namespace backend.Persistence.Dtos.User
 {
     public class UserDto
     {

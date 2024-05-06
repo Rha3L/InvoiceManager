@@ -1,8 +1,8 @@
-﻿using backend.Core.Enums;
-using Microsoft.Extensions.Logging;
-using static backend.Core.Entities.Company;
+﻿using Microsoft.Extensions.Logging;
+using backend.Enums;
+using static backend.Entities.Company;
 
-namespace backend.Core.Entities
+namespace backend.Entities
 {
     public class Job: BaseEntity
     {
@@ -15,6 +15,6 @@ namespace backend.Core.Entities
 
         public Company? Company { get; set; }
 
-        public ICollection<Candidate>? Candidates { get; set; }
+        public ICollection<User>? Users { get; set; }
     }
 }

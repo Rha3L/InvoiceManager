@@ -1,6 +1,6 @@
-﻿using backend.Core.Enums;
+﻿using backend.Enums;
 
-namespace backend.Core.Dtos.Job
+namespace backend.Persistence.Dtos.Job
 {
     public class JobCreateDto
     {

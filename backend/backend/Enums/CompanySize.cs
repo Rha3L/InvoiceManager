@@ -1,4 +1,4 @@
-﻿namespace backend.Core.Enums
+﻿namespace backend.Enums
 {
     public enum CompanySize
     {

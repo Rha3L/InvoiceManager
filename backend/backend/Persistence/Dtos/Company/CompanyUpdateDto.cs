@@ -1,6 +1,6 @@
-﻿using backend.Core.Enums;
+﻿using backend.Enums;
 
-namespace backend.Core.Dtos.Company
+namespace backend.Persistence.Dtos.Company
 {
     public class CompanyUpdateDto
     {
