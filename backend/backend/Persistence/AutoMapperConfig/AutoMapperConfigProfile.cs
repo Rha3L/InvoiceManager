@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using backend.Core.Dtos.Candidate;
-using backend.Core.Dtos.Company;
-using backend.Core.Dtos.Job;
-using backend.Core.Entities;
+using backend.Persistence.Dtos.User;
+using backend.Persistence.Dtos.Company;
+using backend.Persistence.Dtos.Job;
+using backend.Entities;
 
-namespace backend.Core.AutoMapperConfig
+namespace backend.Persistence.AutoMapperConfig
 {
-    public class AutoMapperConfigProfile: Profile
+    public class AutoMapperConfigProfile : Profile
     {
         public AutoMapperConfigProfile()
         {
@@ -19,7 +19,7 @@ namespace backend.Core.AutoMapperConfig
             CreateMap<Job, JobDto>()
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
 
-            //Candidate
+            //User
             CreateMap<UserCreateDto, User>();
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => src.Job.Title));
