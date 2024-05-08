@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using backend.Context;
 using backend.Persistence.Dtos.Job;
 using backend.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using backend.Interfaces;
 
 namespace backend.Controllers
 {
@@ -12,13 +10,13 @@ namespace backend.Controllers
     [ApiController]
     public class JobsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IJobRepository _jobRepo;
 
         private readonly IMapper _mapper;
 
-        public JobsController(ApplicationDbContext context, IMapper mapper)
+        public JobsController(IMapper mapper, IJobRepository jobRepo)
         {
-            _context = context;
+            _jobRepo = jobRepo;
             _mapper = mapper;
         }
 
@@ -28,8 +26,7 @@ namespace backend.Controllers
         public async Task<IActionResult> CreateJob([FromBody] JobCreateDto dto)
         {
             var newJob = _mapper.Map<Job>(dto);
-            await _context.Jobs.AddAsync(newJob);
-            await _context.SaveChangesAsync();
+            await _jobRepo.CreateAsync(newJob);
 
             return CreatedAtAction(nameof(GetJobById), new { id = newJob.ID }, newJob);
         }
@@ -38,7 +35,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<JobDto>>> GetJobs()
         {
-            var jobs = await _context.Jobs.Include(job => job.Company).ToListAsync();
+            var jobs = await _jobRepo.GetAllAsync();
             var convertedJobs = _mapper.Map<IEnumerable<JobDto>>(jobs);
 
             return Ok(convertedJobs);
@@ -48,13 +45,7 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<JobDto>>> GetJobById([FromRoute] int id)
         {
-            var job = await _context.Jobs.FirstOrDefaultAsync(x => x.ID == id);
-
-            if (job == null)
-            {
-                return NotFound();
-            }
-
+            var job = await _jobRepo.GetByIdAsync(id);
             var convertedJob = _mapper.Map<JobDto>(job);
 
             return Ok(convertedJob);
@@ -64,25 +55,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateJob([FromRoute] int id, [FromBody] JobUpdateDto dto)
         {
-            var job = await _context.Jobs.FirstOrDefaultAsync(x => x.ID == id);
-
-            if (job == null)
-            {
-                return NotFound();
-            }
-
-            _context.Entry(dto).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
-
+            var job = await _jobRepo.UpdateAsync(id, dto);
             var convertedJob = _mapper.Map<JobUpdateDto>(job);
 
             return Ok(convertedJob);
@@ -92,16 +65,7 @@ namespace backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteJob([FromRoute] int id)
         {
-            var job = await _context.Jobs.FirstOrDefaultAsync(x => x.ID == id);
-
-            if (job == null)
-            {
-                return NotFound();
-            }
-
-            _context.Jobs.Remove(job);
-
-            await _context.SaveChangesAsync();
+            var job = await _jobRepo.DeleteAsync(id);
 
             return NoContent();
         }

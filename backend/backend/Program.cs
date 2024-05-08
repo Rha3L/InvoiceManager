@@ -1,6 +1,7 @@
 using backend.Context;
 using backend.Interfaces;
 using backend.Persistence.AutoMapperConfig;
+using backend.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -29,7 +30,8 @@ builder.Services.AddSwaggerGen();
 
 
 // Add repositories
-builder.Services.AddScoped<ICompanyRepository, ICompanyRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
 
 var app = builder.Build();
 
