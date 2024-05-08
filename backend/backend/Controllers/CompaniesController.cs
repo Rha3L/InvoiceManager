@@ -3,7 +3,6 @@ using backend.Context;
 using backend.Persistence.Dtos.Company;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Interfaces;
 
 
