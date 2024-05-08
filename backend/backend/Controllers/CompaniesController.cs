@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using backend.Core.Context;
-using backend.Core.Dtos.Company;
-using backend.Core.Entities;
+using backend.Context;
+using backend.Persistence.Dtos.Company;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using backend.Interfaces;
 
 
 namespace backend.Controllers
@@ -11,14 +12,16 @@ namespace backend.Controllers
     [Route("api/companies")]
     [ApiController]
     public class CompaniesController : ControllerBase
-    {
-        private readonly ApplicationDbContext _context;
+    { 
+
+        private readonly ICompanyRepository _companyRepo;
 
         private readonly IMapper _mapper;
 
-        public CompaniesController(ApplicationDbContext context, IMapper mapper)
+        public CompaniesController(ApplicationDbContext context, IMapper mapper, ICompanyRepository companyRepo)
         {
-            _context = context;
+            _companyRepo = companyRepo;
+            
             _mapper = mapper;
         }
 
@@ -28,8 +31,7 @@ namespace backend.Controllers
         public async Task<IActionResult> CreateCompany([FromBody] CompanyCreateDto dto)
         {
             var newCompany = _mapper.Map<Company>(dto);
-            await _context.Companies.AddAsync(newCompany);
-            await _context.SaveChangesAsync();
+            await _companyRepo.CreateAsync(newCompany);
 
             return CreatedAtAction(nameof(GetCompanyById), new { id = newCompany.ID }, newCompany);
         }
@@ -38,7 +40,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies()
         {
-            var companies = await _context.Companies.ToListAsync();
+            var companies = await _companyRepo.GetAllAsync();
             var convertedCompanies = _mapper.Map<CompanyDto>(companies);
 
             return Ok(convertedCompanies);
@@ -48,12 +50,7 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanyById([FromRoute] int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(x => x.ID == id);
-
-            if (company == null)
-            {
-                return NotFound();
-            }
+            var company = await _companyRepo.GetByIdAsync(id);
 
             var convertedCompany = _mapper.Map<CompanyDto>(company);
 
@@ -65,24 +62,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCompany([FromRoute] int id, [FromBody] CompanyUpdateDto dto)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(x => x.ID == id);
-
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            _context.Entry(dto).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
+            var company = await _companyRepo.UpdateAsync(id, dto);
 
             var convertedCompany = _mapper.Map<CompanyUpdateDto>(company);
 
@@ -93,16 +73,7 @@ namespace backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany([FromRoute] int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(x => x.ID == id);
-
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            _context.Companies.Remove(company);
-
-            await _context.SaveChangesAsync();
+            var company = await _companyRepo.DeleteAsync(id);
 
             return NoContent();
         }

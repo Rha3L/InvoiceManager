@@ -1,7 +1,9 @@
-using backend.Core.AutoMapperConfig;
-using backend.Core.Context;
+using backend.Context;
+using backend.Interfaces;
+using backend.Persistence.AutoMapperConfig;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,10 @@ builder.Services
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+// Add repositories
+builder.Services.AddScoped<ICompanyRepository, ICompanyRepository>();
 
 var app = builder.Build();
 
