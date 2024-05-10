@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using backend.Context;
 using backend.Persistence.Dtos.Company;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +16,7 @@ namespace backend.Controllers
 
         private readonly IMapper _mapper;
 
-        public CompaniesController(ApplicationDbContext context, IMapper mapper, ICompanyRepository companyRepo)
+        public CompaniesController(IMapper mapper, ICompanyRepository companyRepo)
         {
             _companyRepo = companyRepo;
             
@@ -29,6 +28,9 @@ namespace backend.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyCreateDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var newCompany = _mapper.Map<Company>(dto);
             await _companyRepo.CreateAsync(newCompany);
 
@@ -39,6 +41,9 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies()
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var companies = await _companyRepo.GetAllAsync();
             var convertedCompanies = _mapper.Map<CompanyDto>(companies);
 
@@ -46,9 +51,12 @@ namespace backend.Controllers
         }
 
         //Get a company by ID
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanyById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var company = await _companyRepo.GetByIdAsync(id);
 
             var convertedCompany = _mapper.Map<CompanyDto>(company);
@@ -58,9 +66,12 @@ namespace backend.Controllers
 
 
         //Update
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCompany([FromRoute] int id, [FromBody] CompanyUpdateDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var company = await _companyRepo.UpdateAsync(id, dto);
 
             var convertedCompany = _mapper.Map<CompanyUpdateDto>(company);
@@ -69,9 +80,12 @@ namespace backend.Controllers
         }
 
         //Delete
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCompany([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var company = await _companyRepo.DeleteAsync(id);
 
             return NoContent();

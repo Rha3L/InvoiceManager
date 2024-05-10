@@ -3,6 +3,7 @@ using backend.Persistence.Dtos.Job;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using backend.Interfaces;
+using backend.Helpers;
 
 namespace backend.Controllers
 {
@@ -25,6 +26,9 @@ namespace backend.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateJob([FromBody] JobCreateDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var newJob = _mapper.Map<Job>(dto);
             await _jobRepo.CreateAsync(newJob);
 
@@ -33,8 +37,11 @@ namespace backend.Controllers
 
         //Read
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobDto>>> GetJobs()
+        public async Task<ActionResult<IEnumerable<JobDto>>> GetJobs([FromQuery] QueryObject query)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var jobs = await _jobRepo.GetAllAsync();
             var convertedJobs = _mapper.Map<IEnumerable<JobDto>>(jobs);
 
@@ -42,9 +49,12 @@ namespace backend.Controllers
         }
 
         //Get a job by ID
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<IEnumerable<JobDto>>> GetJobById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var job = await _jobRepo.GetByIdAsync(id);
             var convertedJob = _mapper.Map<JobDto>(job);
 
@@ -52,9 +62,12 @@ namespace backend.Controllers
         }
 
         //Update
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateJob([FromRoute] int id, [FromBody] JobUpdateDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var job = await _jobRepo.UpdateAsync(id, dto);
             var convertedJob = _mapper.Map<JobUpdateDto>(job);
 
@@ -62,9 +75,12 @@ namespace backend.Controllers
         }
 
         //Delete
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteJob([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var job = await _jobRepo.DeleteAsync(id);
 
             return NoContent();
