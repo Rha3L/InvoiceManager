@@ -2,7 +2,7 @@
 using backend.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Persistence.Dtos.Job
+namespace backend.Persistence.Dtos.Invoice
 {
     public class InvoiceDto
     {
