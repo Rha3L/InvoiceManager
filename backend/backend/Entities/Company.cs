@@ -1,15 +1,15 @@
-﻿using backend.Core.Enums;
+﻿using backend.Enums;
 
-namespace backend.Core.Entities
+namespace backend.Entities
 {
     public class Company : BaseEntity
     {
         public string Name { get; set; }  = string.Empty;
 
-        public CompanySize Size { get; set; }
+        public string ABN { get; set; } = string.Empty;
 
         //Relations
-        public ICollection<Job>? Jobs { get; set; }
+        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
        
     }
 }
