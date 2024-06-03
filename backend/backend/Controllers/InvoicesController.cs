@@ -9,13 +9,13 @@ namespace backend.Controllers
 {
     [Route("api/jobs")]
     [ApiController]
-    public class JobsController : ControllerBase
+    public class InvoicesController : ControllerBase
     {
         private readonly IJobRepository _jobRepo;
 
         private readonly IMapper _mapper;
 
-        public JobsController(IMapper mapper, IJobRepository jobRepo)
+        public InvoicesController(IMapper mapper, IJobRepository jobRepo)
         {
             _jobRepo = jobRepo;
             _mapper = mapper;
@@ -29,7 +29,7 @@ namespace backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var newJob = _mapper.Map<Job>(dto);
+            var newJob = _mapper.Map<Invoice>(dto);
             await _jobRepo.CreateAsync(newJob);
 
             return CreatedAtAction(nameof(GetJobById), new { id = newJob.ID }, newJob);
