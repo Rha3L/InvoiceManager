@@ -1,6 +1,6 @@
 ﻿namespace backend.Enums
 {
-    public enum InvoiceCategory
+    public enum ExpenseCategory
     {
         Purchase,
         OfficeExpenses,
