@@ -10,8 +10,6 @@ namespace backend.Entities
 
         public DateTime DueDate { get; set; }
 
-        public bool AnyGST { get; set; }
-
         public float GST { get; set; }
 
         public float Total { get; set; }

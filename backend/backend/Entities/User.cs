@@ -11,6 +11,6 @@
         public string Password { get; set; } = string.Empty;
 
         //Relations
-        public ICollection<Customer> Companies { get; set; } = new List<Customer>();
+      
     }
 }

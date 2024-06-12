@@ -7,7 +7,7 @@
         public string? ABN { get; set; }
 
         //Relations
-        public ICollection<Income> Invoices { get; set; } = new List<Income>();
+        public ICollection<Income> Income { get; set; } = new List<Income>();
        
     }
 }
