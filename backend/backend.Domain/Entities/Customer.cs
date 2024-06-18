@@ -1,4 +1,4 @@
-﻿namespace backend.Entities
+﻿namespace backend.Domain.Entities
 {
     public class Customer : BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace backend.Enums
+﻿namespace backend.Domain.Enums
 {
     public enum ExpenseCategory
     {
