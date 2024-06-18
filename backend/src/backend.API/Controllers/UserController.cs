@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using backend.Core.Context;
-using backend.Core.Dtos.Candidate;
-using backend.Core.Dtos.Company;
-using backend.Core.Entities;
-using Microsoft.AspNetCore.Http;
+using backend.Data.Context;
+using backend.Persistence.Dtos.User;
+using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

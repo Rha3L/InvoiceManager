@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen();
 
 // Add repositories
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<IInvoiceRepository, JobRepository>();
 
 var app = builder.Build();
 

@@ -26,12 +26,12 @@ namespace backend.Controllers
         //Create
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> CreateCompany([FromBody] CompanyCreateDto dto)
+        public async Task<IActionResult> CreateCompany([FromBody] CustomerCreateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var newCompany = _mapper.Map<Company>(dto);
+            var newCompany = _mapper.Map<Customer>(dto);
             await _companyRepo.CreateAsync(newCompany);
 
             return CreatedAtAction(nameof(GetCompanyById), new { id = newCompany.ID }, newCompany);
@@ -39,27 +39,27 @@ namespace backend.Controllers
 
         //Read
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies()
+        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCompanies()
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var companies = await _companyRepo.GetAllAsync();
-            var convertedCompanies = _mapper.Map<CompanyDto>(companies);
+            var convertedCompanies = _mapper.Map<CustomerDto>(companies);
 
             return Ok(convertedCompanies);
         }
 
         //Get a company by ID
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanyById([FromRoute] int id)
+        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCompanyById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var company = await _companyRepo.GetByIdAsync(id);
 
-            var convertedCompany = _mapper.Map<CompanyDto>(company);
+            var convertedCompany = _mapper.Map<CustomerDto>(company);
 
             return Ok(convertedCompany);
         }
@@ -67,14 +67,14 @@ namespace backend.Controllers
 
         //Update
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateCompany([FromRoute] int id, [FromBody] CompanyUpdateDto dto)
+        public async Task<IActionResult> UpdateCompany([FromRoute] int id, [FromBody] CustomerUpdateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var company = await _companyRepo.UpdateAsync(id, dto);
 
-            var convertedCompany = _mapper.Map<CompanyUpdateDto>(company);
+            var convertedCompany = _mapper.Map<CustomerUpdateDto>(company);
 
             return Ok(convertedCompany);
         }

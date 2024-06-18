@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using backend.Persistence.Dtos.User;
 using backend.Persistence.Dtos.Company;
-using backend.Persistence.Dtos.Job;
+using backend.Persistence.Dtos.Invoice;
 using backend.Entities;
 
 namespace backend.Persistence.AutoMapperConfig
@@ -11,12 +11,12 @@ namespace backend.Persistence.AutoMapperConfig
         public AutoMapperConfigProfile()
         {
             //Company
-            CreateMap<CompanyCreateDto, Company>();
-            CreateMap<Company, CompanyDto>();
+            CreateMap<CustomerCreateDto, Customer>();
+            CreateMap<Customer, CustomerDto>();
 
             //Job
-            CreateMap<JobCreateDto, Job>();
-            CreateMap<Job, JobDto>()
+            CreateMap<IncomeCreateDto, Income>();
+            CreateMap<Income, IncomeDto>()
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
 
             //User
