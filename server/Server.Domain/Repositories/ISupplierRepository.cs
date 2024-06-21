@@ -1,13 +1,14 @@
 ﻿using Server.Domain.Entities;
+using Server.Application.Supplier.Dtos;
 
 namespace Server.Domain.Repositories
 {
     public interface ISupplierRepository
     {
-        Task<List<Income>> GetAllAsync(QueryObject query);
-        Task<Income?> GetByIdAsync(int id);
-        Task<Income> CreateAsync(Income invoiceEntity);
-        Task<Income?> UpdateAsync(int id, IncomeUpdateDto invoiceDto);
-        Task<Income?> DeleteAsync(int id);
+        Task<List<Supplier>> GetAllAsync(QueryObject query);
+        Task<Supplier?> GetByIdAsync(int id);
+        Task<Supplier> CreateAsync(Supplier supplierEntity);
+        Task<Supplier?> UpdateAsync(int id, SupplierUpdateDto supplierDto);
+        Task<Supplier?> DeleteAsync(int id);
     }
 }

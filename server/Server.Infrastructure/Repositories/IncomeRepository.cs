@@ -1,16 +1,16 @@
-﻿using backend.Data.Context;
-using backend.Domain.Entities;
+﻿using Server.Infrastructure.Persistence;
+using Server.Domain.Entities;
 using backend.Helpers;
-using backend.Interfaces;
+using Server.Domain.Repositories;
 using backend.Persistence.Dtos.Job;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repository
 {
-    public class JobRepository: IInvoiceRepository
+    public class IncomeRepository: IIncomeRepository
     {
         private readonly ApplicationDbContext _context;
-        public JobRepository(ApplicationDbContext context)
+        public IncomeRepository(ApplicationDbContext context)
         {
             _context = context;
         }

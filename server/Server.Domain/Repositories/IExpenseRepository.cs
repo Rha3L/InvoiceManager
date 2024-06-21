@@ -1,15 +1,15 @@
 ﻿using Server.Domain.Entities;
 using Server.API.Helpers;
-using Server.Persistence.Dtos.Invoice;
+using Server.Application.Expense.Dtos;
 
 namespace Server.Domain.Repositories
 {
     public interface IExpenseRepository
     {
-        Task<List<Income>> GetAllAsync(QueryObject query);
-        Task<Income?> GetByIdAsync(int id);
-        Task<Income> CreateAsync(Income invoiceEntity);
-        Task<Income?> UpdateAsync(int id, IncomeUpdateDto invoiceDto);
-        Task<Income?> DeleteAsync(int id);
+        Task<List<Expense>> GetAllAsync();
+        Task<Expense?> GetByIdAsync(int id);
+        Task<Expense> CreateAsync(Income invoiceEntity);
+        Task<Expense?> UpdateAsync(int id, ExpenseUpdateDto invoiceDto);
+        Task<Expense?> DeleteAsync(int id);
     }
 }

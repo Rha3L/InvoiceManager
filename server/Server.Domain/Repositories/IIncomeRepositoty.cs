@@ -1,4 +1,5 @@
 ﻿using Server.Domain.Entities;
+using Server.Application.Expense.Dtos;
 
 namespace Server.Domain.Repositories
 {
