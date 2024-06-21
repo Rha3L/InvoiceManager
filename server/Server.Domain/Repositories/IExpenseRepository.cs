@@ -8,8 +8,8 @@ namespace Server.Domain.Repositories
     {
         Task<List<Expense>> GetAllAsync();
         Task<Expense?> GetByIdAsync(int id);
-        Task<Expense> CreateAsync(Income invoiceEntity);
-        Task<Expense?> UpdateAsync(int id, ExpenseUpdateDto invoiceDto);
+        Task<Expense> CreateAsync(Income expenseEntity);
+        Task<Expense?> UpdateAsync(int id, ExpenseUpdateDto expenseDto);
         Task<Expense?> DeleteAsync(int id);
     }
 }

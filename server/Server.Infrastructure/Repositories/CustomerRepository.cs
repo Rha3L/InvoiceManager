@@ -8,10 +8,10 @@ using Server.Application.Dtos.Company;
 
 namespace backend.Repository
 {
-    public class CompanyRepository : ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly ApplicationDbContext _context;
-        public CompanyRepository(ApplicationDbContext context) 
+        public CustomerRepository(ApplicationDbContext context) 
         {
             _context = context;
         }

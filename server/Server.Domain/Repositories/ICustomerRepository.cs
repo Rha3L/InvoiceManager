@@ -7,8 +7,8 @@ namespace Server.Domain.Repositories
     {
         Task<List<Customer>> GetAllAsync();
         Task<Customer?> GetByIdAsync(int id);
-        Task<Customer> CreateAsync(Customer companyEntity);
-        Task<Customer?> UpdateAsync(int id, CustomerUpdateDto companyDto);
+        Task<Customer> CreateAsync(Customer customerEntity);
+        Task<Customer?> UpdateAsync(int id, CustomerUpdateDto customerDto);
         Task<Customer?> DeleteAsync(int id);
     }
 }
