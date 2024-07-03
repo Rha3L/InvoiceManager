@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Server.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Server.Application.Customers.Dtos
 {
@@ -10,6 +11,6 @@ namespace Server.Application.Customers.Dtos
 
         public string ABN { get; set; } = string.Empty;
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;       
+        public ICollection<Income> Income { get; set; } = [];
     }
 }
