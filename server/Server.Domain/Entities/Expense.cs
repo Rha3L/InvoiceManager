@@ -21,7 +21,7 @@ namespace Server.Domain.Entities
         public string? Notes { get; set; }
 
         //Relations
-        public long SupplierId { get; set; }
+        public long SupplierName { get; set; }
 
         public required Supplier Supplier { get; set; }
 

@@ -7,6 +7,6 @@
         public string ABN { get; set; } = string.Empty;
 
         //Relations
-        public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
+        public ICollection<Expense> Expenses { get; set; } = [];
     }
 }
