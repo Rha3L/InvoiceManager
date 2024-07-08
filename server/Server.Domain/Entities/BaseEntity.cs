@@ -5,7 +5,7 @@ namespace Server.Domain.Entities
     public abstract class BaseEntity
     {
         [Key]
-        public long ID { get; set; }
+        public int ID { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
