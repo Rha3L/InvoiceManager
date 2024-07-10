@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Server.Application.Customers;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace Server.Application.Extensions
@@ -8,8 +9,12 @@ namespace Server.Application.Extensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<ICustomerService, CustomerService>();
-
+            var applicationAssembly = typeof(ServiceCollectionExtensions).Assembly;
+            
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(applicationAssembly));
+            services.AddAutoMapper(applicationAssembly);
+            services.AddValidatorsFromAssembly(applicationAssembly)
+                .AddFluentValidationAutoValidation();
         }
     }
 }
