@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Server.Application.Customers.Dtos;
 
-namespace Server.Application.Customers.Validators;
+namespace Server.Application.Customers.Commands.CreateCustomer;
 
-internal class CreateCustomerDtoValidator: AbstractValidator<CreateCustomerDto>
+internal class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
 {
-    public CreateCustomerDtoValidator()
+    public CreateCustomerCommandValidator()
     {
         RuleFor(dto => dto.Name)
             .NotEmpty()
