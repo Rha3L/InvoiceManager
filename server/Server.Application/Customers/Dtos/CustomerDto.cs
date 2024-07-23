@@ -1,16 +1,14 @@
-﻿using Server.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using Server.Application.Income.Dtos;
 
-namespace Server.Application.Customers.Dtos
+namespace Server.Application.Customers.Dtos;
+
+public class CustomerDto
 {
-    public class CustomerDto
-    {
-        public long ID { get; set; }
-        [Required]
-        public string Name { get; set; } = string.Empty;
+    public int ID { get; set; }
+  
+    public string Name { get; set; } = string.Empty;
 
-        public string ABN { get; set; } = string.Empty;
+    public string? ABN { get; set; }
 
-        public ICollection<Income> Income { get; set; } = [];
-    }
+    public ICollection<IncomeDto> Income { get; set; } = [];
 }
