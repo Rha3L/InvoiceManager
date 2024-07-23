@@ -1,96 +1,63 @@
-﻿using AutoMapper;
-using backend.Persistence.Dtos.Company;
-using backend.Entities;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using backend.Interfaces;
+using Server.Application.Suppliers.Commands.CreateSupplier;
+using Server.Application.Suppliers.Queries.GetAllSuppliers;
+using Server.Application.Suppliers.Queries.GetSupplierById;
 
 
-namespace Server.API.Controllers
-{
-    [Route("api/companies")]
-    [ApiController]
-    public class SuppliersController : ControllerBase
-    { 
+namespace Server.API.Controllers;
 
-        private readonly ICompanyRepository _companyRepo;
+[Route("api/companies")]
+[ApiController]
+public class SuppliersController(IMediator mediator) : ControllerBase
+{ 
+    //Create
+    [HttpPost]
+    [Route("create")]
+    public async Task<IActionResult> CreateSupplier([FromBody] CreateSupplierCommand command)
+    {
+        int id = await mediator.Send(command);
 
-        private readonly IMapper _mapper;
+        return CreatedAtAction(nameof(GetSupplierById), new { id }, null);
+    }
 
-        public SuppliersController(IMapper mapper, ICompanyRepository companyRepo)
-        {
-            _companyRepo = companyRepo;
-            
-            _mapper = mapper;
-        }
+    //Read
+    [HttpGet]
+    public async Task<ActionResult> GetAllSuppliers()
+    {
+        var suppliers = await mediator.Send(new GetAllSuppliersQuery());
 
-        //Create
-        [HttpPost]
-        [Route("create")]
-        public async Task<IActionResult> CreateCompany([FromBody] CustomerCreateDto dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        return Ok(suppliers);
+    }
 
-            var newCompany = _mapper.Map<Customer>(dto);
-            await _companyRepo.CreateAsync(newCompany);
+    //Get a supplier by ID
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> GetSupplierById([FromRoute] int id)
+    {
+        var supplier = await mediator.Send(new GetSupplierByIdQuery(id));
 
-            return CreatedAtAction(nameof(GetCompanyById), new { id = newCompany.ID }, newCompany);
-        }
-
-        //Read
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCompanies()
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var companies = await _companyRepo.GetAllAsync();
-            var convertedCompanies = _mapper.Map<CustomerDto>(companies);
-
-            return Ok(convertedCompanies);
-        }
-
-        //Get a company by ID
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCompanyById([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var company = await _companyRepo.GetByIdAsync(id);
-
-            var convertedCompany = _mapper.Map<CustomerDto>(company);
-
-            return Ok(convertedCompany);
-        }
+        return Ok(supplier);
+    }
 
 
-        //Update
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateCompany([FromRoute] int id, [FromBody] CustomerUpdateDto dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+    //Update
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateCompany([FromRoute] int id, [FromBody] CustomerUpdateDto dto)
+    {
+        var company = await _companyRepo.UpdateAsync(id, dto);
 
-            var company = await _companyRepo.UpdateAsync(id, dto);
+        var convertedCompany = _mapper.Map<CustomerUpdateDto>(company);
 
-            var convertedCompany = _mapper.Map<CustomerUpdateDto>(company);
+        return Ok(convertedCompany);
+    }
 
-            return Ok(convertedCompany);
-        }
+    //Delete
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteCompany([FromRoute] int id)
+    {
+        var company = await _companyRepo.DeleteAsync(id);
 
-        //Delete
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteCompany([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        return NoContent();
+    }
+} 
 
-            var company = await _companyRepo.DeleteAsync(id);
-
-            return NoContent();
-        }
-    } 
-}
-
-    
