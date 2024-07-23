@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Application.Customers.Commands.CreateCustomer;
 using Server.Application.Customers.Queries.GetAllCustomers;
