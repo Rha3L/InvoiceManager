@@ -1,14 +1,13 @@
 ﻿using Server.Domain.Entities;
-using Server.Application.Customers.Dtos;
 
 namespace Server.Domain.Repositories
 {
     public interface ICustomerRepository
     {
-        Task<List<Customer>> GetAllAsync();
+        Task<IEnumerable<Customer>> GetAllAsync();
         Task<Customer?> GetByIdAsync(int id);
-        Task<Customer> CreateAsync(Customer customerEntity);
-        Task<Customer?> UpdateAsync(int id, CustomerUpdateDto customerDto);
+        Task<int> CreateCustomer(Customer customerEntity);
+        Task<Customer?> UpdateAsync(int id);
         Task<Customer?> DeleteAsync(int id);
     }
 }
